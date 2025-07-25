@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculator</title>
+
+  <!-- premade Libraries -->
+  <script src="./lib/math.js"></script>
+  <script src="./lib/katex.min.js"></script>
+  <link rel="stylesheet" href="./lib/katex.min.css">
+
+  <!-- made Libraries -->
+  <script src="./lib/variables.js"></script>
+  <script src="./lib/config.js"></script>
+  <script src="./lib/functions.js"></script>
+  <script src="./lib/shortcuts.js"></script>
+
+  <!-- Styles -->
+  <style>
+    body 
+    {
+      font-family: sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: rgb(45, 45, 45);
+      overflow: hidden;
+    }
+    #latex-history 
+    {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px;
+      background: white;
+      border-bottom: 1px solid #ccc;
+      font-size: 18px;
+      scrollbar-color: rgb(45,45,45);
+    }
+    
+        /* Scrollbar width */
+    *::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    /* Scrollbar track */
+    *::-webkit-scrollbar-track {
+      background: #2a2a2a; /* dark background for track */
+    }
+
+    /* Scrollbar thumb (draggable handle) */
+    *::-webkit-scrollbar-thumb {
+      background-color: #666;
+      border-radius: 6px;
+    }
+
+    /* Thumb on hover */
+    *::-webkit-scrollbar-thumb:hover {
+      background-color: #999;
+    }
+
+    /* Optional: Scrollbar buttons (up/down arrows) */
+    *::-webkit-scrollbar-button {
+      background-color: #3a3a3a;
+      height: 12px;
+    }
+
+    #controls 
+    {
+      padding: 15px;
+      background: #f0f0f0;
+      border-top: 1px solid #ccc;
+    }
+    input[type="text"] 
+    {
+      font-size: 18px;
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+    button 
+    {
+      font-size: 16px;
+      margin-top: 10px;
+      padding: 6px 12px;
+    }
+    #status-label 
+    {
+      margin-top: 10px;
+      color: #d9534f;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+
+<body>
+  <!-- used to show history of calculator-->
+  <div id="latex-history" style="background: rgb(45, 45, 45); color: #dadada; scrollbar-color: rgb(45, 45, 45);"></div>
+
+  <!-- insert menu -->
+  <div style="background: rgb(45, 45, 45); color: #dadada;   display: flex; gap: 10px; " >
+  <!-- Greek Alphabet Dropdown -->
+    <div style="display: inline;">
+      <label><input type="checkbox" id="insert-at-cursor"> At cursor</label><br>
+      <label><input type="checkbox" id="insert-to-clipboard"> To clipboard</label>  
+    </div>
+  <div style=" background: inherit; display: inherit; gap: 10px; ">
+    <button 
+      id="toggle-greek"
+      style="background: inherit; 
+            color: #dadada;
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            width: max-content;
+            font-size: 16px;
+            padding: 6px 12px;
+            line-height: normal;
+            border: 1px;
+            border-color: #dadada;
+            border-radius: 4px;">
+      Greek alphabet ▼
+    </button>
+    <div 
+      id="greek-dropdown" 
+      style="display: none; 
+            position: flex; 
+            background: inherit; 
+            border: 1px solid ; 
+            z-index: 1000; 
+            overflow-y: auto; 
+            padding: 5px;
+            bottom: 100%;
+            top: auto;">                   
+    </div>  
+    <!-- Functions Dropdown -->  
+    <button 
+      id="toggle-functions"
+      style="background: inherit; 
+            color: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            width: max-content;
+            font-size: 16px;
+            padding: 6px 12px;
+            line-height: normal;
+            border: 0;
+            border-radius: 4px;">
+      Functions ▼
+    </button>
+    <div 
+      id="functions-dropdown" 
+      style="display: none; 
+            position: flex; 
+            background: inherit; 
+            width: max-content;
+            border: 1px solid #ccc; 
+            z-index: 1000; 
+            padding: 5px;">
+      <button id= "functions-dropdown-parallel" style="width: max-content; background: inherit; color: inherit;">parallel(a,b,..)</button><br>
+      <button id= "functions-dropdown-sqrt" style="width: max-content; background: inherit; color: inherit;" >sqrt(x)</button><br>
+      <button id= "functions-dropdown-log" style="width: max-content; background: inherit; color: inherit;">log(x, base)</button><br>
+      <button id= "functions-dropdown-display" style="width: max-content; background: inherit; color: inherit;">display:</button><br>
+      <!-- Add more as needed -->
+    </div>
+  </div>
+</div>
+  <!-- Buttons -->
+  <div id="controls" style="background: rgb(45, 45, 45); color: #dadada;border: 5px rgb(45, 45, 45);">
+    <input type="text" id="input" placeholder="Enter expression..." autocomplete="off" 
+    style="background: rgb(45, 45, 45); color: #dadada; ">
+    <div style="background: rgb(45, 45, 45); color: #dadada;   display: flex; justify-content: space-between; align-items: center; padding: 5px;">
+
+    <!-- Left-side buttons -->
+    <div style="display: flex; gap: 10px;">
+      <button id="calc-btn" style="background: rgb(45, 45, 45); color: #dadada;  ">Calculate</button>
+      <button id="recalc-btn" style="background: rgb(45, 45, 45); color: #dadada;  ">Recalculate From Here</button>
+      <button id="insertexp-btn" style="background: rgb(45, 45, 45); color: #dadada;  ">Insert express here</button>
+      <button id="pinexp-btn" style="background: rgb(45, 45, 45); color: #dadada;  ">Toggle Pin</button>    
+    </div>
+
+    <!-- Right-side buttons -->
+    <div style="display: flex; gap: 10px;">
+      <button id="clear-btn" style="background: rgb(45, 45, 45); color: #dadada;  ">Clear History</button>
+      <button id="clear-last-btn" style="background: rgb(45, 45, 45); color: #dadada;  ">Clear selected input</button>
+    </div>  
+  </div>
+  <div>  
+    <!-- Export button (unchanged) -->
+    <button onclick="exportHistoryToJSON(history);" style="background: inherit; color: inherit;">Export History</button>   
+
+    <!-- Hidden file input -->
+    <input type="file" id="importJsonFile" accept=".json" style="display: none;">
+
+    <!-- Custom label that triggers the file input -->
+    <label for="importJsonFile" style="background: inherit; color: inherit; border: 1px solid gray; padding: 4px 8px; cursor: pointer; margin-left: 8px;">
+      Import History
+    </label>
+
+    <!-- Optional file name display -->
+    <span id="fileNameDisplay" style="margin-left: 8px; color: inherit;">No file chosen</span>
+  </div>
+    <!-- label to show warnings and when shortcuts are used -->
+  <div id="status-label" style="background: rgb(45, 45, 45); color: #a61313; "></div>
+</div>
+
+  <script>
+    const fileInput = document.getElementById('importJsonFile');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+
+    fileInput.addEventListener('change', () => {
+      const fileName = fileInput.files.length ? fileInput.files[0].name : "No file chosen";
+      fileNameDisplay.textContent = fileName;
+    });
+    const input = document.getElementById("input");
+    const historyDiv = document.getElementById("latex-history");
+    const statusLabel = document.getElementById("status-label");
+    //control buttons
+    const calcBtn = document.getElementById("calc-btn");
+    const clearBtn = document.getElementById("clear-btn");
+    const clearLastBtn = document.getElementById("clear-last-btn");
+    const recalcBtn = document.getElementById("recalc-btn");
+    const insertexp = document.getElementById("insertexp-btn");    
+    const pinexp = document.getElementById("pinexp-btn");  
+
+    const toggleGreek = document.getElementById("toggle-greek");   
+    const greekDropdown = document.getElementById("greek-dropdown");
+    
+    const toggleFunctions = document.getElementById("toggle-functions");
+    const functionsdropdown = document.getElementById("functions-dropdown");
+
+    //insert menu
+    const functionsdropdownParallel = document.getElementById("functions-dropdown-parallel");
+    functionsdropdownParallel.addEventListener("click",() =>{insertTextToInput(`parallel(,)`);});
+
+    const functionsdropdownSqrt = document.getElementById("functions-dropdown-sqrt");
+    functionsdropdownSqrt.addEventListener("click",() =>{insertTextToInput(`sqrt()`);});
+
+    const functionsdropdownLog = document.getElementById("functions-dropdown-log");    
+    functionsdropdownLog.addEventListener("click",() =>{insertTextToInput(`log(,)`);});
+
+    const functionsdropdownDisplay =document.getElementById("functions-dropdown-display");
+    functionsdropdownDisplay.addEventListener("click",() =>{insertTextToInput(`display:`);});     
+
+    const insertAtCursorCheckbox = document.getElementById("insert-at-cursor");
+    insertAtCursorCheckbox.checked = window.calculatorConfig.insertGreekAtCursor;
+
+    const insertGreekToClipBoard = document.getElementById("insert-to-clipboard");
+    insertGreekToClipBoard.checked = window.calculatorConfig.insertGreekToClipBoard;
+
+    const greekButtonsDiv = document.getElementById("greek-buttons");
+
+    document.getElementById("importJsonFile").addEventListener("change", function () 
+    {
+    const file = this.files[0];
+      if (file) 
+        importHistoryFromJSON(file);
+    });
+    
+    const scope = { ...window.variables.values };
+    const history = [];
+    const allDropdowns = 
+    [
+      { toggleId: toggleGreek, dropdownId: greekDropdown,displayText:"Greek alphabet" },
+      { toggleId: toggleFunctions, dropdownId: functionsdropdown,displayText:"Functions" },
+    ];
+    allDropdowns.forEach(({toggleId,dropdownId,displayText})=>{setupDropdownToggle(toggleId,dropdownId,displayText);});
+    greekLetters.forEach(({ symbol, name }) => 
+    {
+      const btn = document.createElement("button");
+      btn.textContent = `${symbol} (${name})`;
+      btn.style.display = "block";
+      btn.style.width = "100%";
+      btn.style.textAlign = "left";
+      btn.style.background ="inherit";
+      btn.style.color ="inherit";
+      btn.title = `${name}`;
+      btn.onclick = () => 
+      {
+        insertTextToInput(`${name}`);
+      };
+      greekDropdown.appendChild(btn);
+    });
+    
+    const shortcuts = setupShortcuts(input, history, 
+    {
+      updateStatus,
+      renderHistory,
+      config: window.calculatorConfig
+    });
+   
+    calcBtn.addEventListener("click", () => {calculate(null)} );
+
+    clearBtn.addEventListener("click", () => {clearfun();});
+
+    clearLastBtn.addEventListener("click", () => {clearLastfun(shortcuts.getinputHistoryIndex());});
+
+    recalcBtn.addEventListener("click", () => {recalcfun( shortcuts.getinputHistoryIndex() );});
+
+    insertexp.addEventListener("click", () =>{calculate(shortcuts.getinputHistoryIndex());});
+
+    pinexp.addEventListener("click",() =>{pinfun()});
+
+    document.addEventListener("click", (e) => 
+    {
+      allDropdowns.forEach(({toggleId,dropdownId,displayText})=>
+      {
+        if (!toggleId.contains(e.target) && !dropdownId.contains(e.target)) 
+        {
+          dropdownId.style.display = "none";
+          toggleId.textContent = displayText+" ▼";
+        }
+
+      });
+    });
+  input.focus();
+  </script>
+</body>
+</html>

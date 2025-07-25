@@ -1,0 +1,10 @@
+[
+  {
+    "inputText": "x=1,y=1", 
+    "Pinned": false
+  },
+  {
+    "inputText": "dist=sqrt(x^2+y^2) display: using distance formula", 
+    "Pinned": false
+  }
+]
