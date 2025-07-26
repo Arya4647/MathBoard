@@ -1,4 +1,4 @@
-Purpose of this project:
+#Purpose of this project
 This is a calculator that does more than just take a string and evaluate it 
 I have made this as I feel software calculators are very basic and could do much more.
 You may ask what more, that is what the project is for 
