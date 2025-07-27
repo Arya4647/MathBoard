@@ -17,6 +17,9 @@ It works as I intend it to work
 
 And please don't judge this project as a completed project
 
+This calculator is susposes to be less complex then mathlab
+somewhat like desmos but moduler i.e to add constants(like h,hbar etc) and operator( parrellel resistor).
+
 ## Major features
 - Shows latex expression ,for better readablity
 - Variable assignment
@@ -28,6 +31,8 @@ And please don't judge this project as a completed project
 - import forumales with one example in forumla folder
 - A parrellel function for us circuit designers
 - display: to add [some explaination]
+- undersroce for subsrcipt
+- some shortcut refer variables.js for all
 ## Features I wanted to add but could because of end of college holiday
 - Using derivative function math.js
 - support if vectors and matrixs
@@ -39,6 +44,7 @@ And please don't judge this project as a completed project
 - Latex input ,like in desmos I don't what to call it but something like desmos's input field
 - graphing vectors and complex number
 - get the graphing as strong as desmos (just 2D)
+- make it look good
 ## Future
 I may not work on this further due to college and in next holiday I will be internships and R&D
 
