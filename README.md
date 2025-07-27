@@ -19,6 +19,7 @@ And please don't judge this project as a completed project
 
 This calculator is susposes to be less complex then mathlab
 somewhat like desmos but moduler i.e to add constants(like h,hbar etc) and operator( parrellel resistor).
+and to support 5e3=5*10^3
 
 ## Major features
 - Shows latex expression ,for better readablity
@@ -44,6 +45,7 @@ somewhat like desmos but moduler i.e to add constants(like h,hbar etc) and opera
 - Latex input ,like in desmos I don't what to call it but something like desmos's input field
 - graphing vectors and complex number
 - get the graphing as strong as desmos (just 2D)
+- Support function delcaration just like in desmos
 - make it look good
 ## Future
 I may not work on this further due to college and in next holiday I will be internships and R&D
