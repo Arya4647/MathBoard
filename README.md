@@ -39,4 +39,8 @@ And please don't judge this project as a completed project
 - Latex input ,like in desmos I don't what to call it but something like desmos's input field
 - graphing vectors and complex number
 - get the graphing as strong as desmos (just 2D)
+## Future
+I may not work on this further due to college and in next holiday I will be internships and R&D
+
+I hope someone more skilled in code contiunes this project, to take this idea furthur and if think you want to please let me know at least I will happy to see this go furthur
 
