@@ -27,5 +27,8 @@ And please don't judge this project as a completed project
 - inerst expression to correct errors
 - import forumales with one example in forumla folder
 - display: to add [some explaination]
-- 
+## features I wanted to add but could because of end of college holiday
+- Using derivative function math.js
+- support if vectors and matrixs
+  
 
