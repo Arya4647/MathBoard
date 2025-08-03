@@ -40,6 +40,7 @@ and to support 5e3=5*10^3
 - To not launch on broswer
 - export the latex as pdf
 - graphing  2D functions
+- 
 ## Features I wanted to add but could because lack of coding knewledge and spended too much time on this
 - custom operator support,please help me do this
 - Latex input ,like in desmos I don't what to call it but something like desmos's input field
