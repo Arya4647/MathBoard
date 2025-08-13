@@ -34,6 +34,7 @@ and to support 5e3=5*10^3
 - display: to add [some explaination]
 - undersroce for subsrcipt
 - some shortcut refer variables.js for all
+-  scientific constants are stored in a dedicated variables.js file, making them easily accessible across the app while remaining read-only to prevent accidental changes. This ensures consistent, accurate results in all calculations.
 ## Features I wanted to add but could because of end of college holiday
 - Using derivative function math.js
 - support if vectors and matrixs
